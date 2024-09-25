@@ -22,27 +22,9 @@ def user_already_exists(nombre):
 async def index():
     return 'Hello World'
 
-@app.route('/test1')
-async def test1():
-    exists = False
-    pwd = ''
-    with open('users.txt', 'r+') as f:
-        for line in f:
-            if line.split(':')[0] == 'jorge':
-                exists = True
-                pwd = line.split(':')[1]
-
-    if exists == True:
-        return pwd
-    else:
-        with open('users.txt', 'a') as f:
-            f.write('jorge:' + str(hashlib.sha1()))
-            os.mkdir('jorge')
-
-    return 'created'
 
 @app.route('/user/create_user', methods = ['PUT', 'POST'])
-async def login():
+async def register():
     datos = await request.get_json()
     user = datos.get("nombre")
     pwd = datos.get("password")
@@ -59,6 +41,16 @@ async def login():
     return user
 
 @app.route('user/login', methods = ['PUT', 'POST'])
+async def login():
+    datos = await request.get_json()
+    user = datos.get("nombre")
+    pwd = datos.get("password")
+
+    with open('users.txt', 'r') as f:
+        for line in f:
+            if line.split(":")[0] == user and line.split(":")[1] == pwd:
+                return generar_token(line.split(":")[2])
+    return "ERROR: User not found"
 
     
 
