@@ -1,12 +1,11 @@
 from quart import Quart, jsonify, request
-import os, uuid, hashlib
+import os, uuid, hashlib, shutil
 
 SECRET_UUID = uuid.UUID("00010203-0405-0607-0809-0a0b0c0d0e0f")
 
 app = Quart(__name__)
 
 def generar_token(uid):
-    print(uid)
     hash = uuid.uuid5(SECRET_UUID, str(uid))
     return str(hash)
 
@@ -41,7 +40,7 @@ async def index():
     return 'Hello World'
 
 
-@app.route('/user/create_user', methods = ['PUT', 'POST'])
+@app.route('/user/create', methods = ['PUT', 'POST'])
 async def register():
     datos = await request.get_json()
     user = datos.get("nombre")
@@ -69,6 +68,60 @@ async def login():
             if line.split(":")[0] == user and line.split(":")[1] == pwd:
                 return "uid: " + line.split(':')[2] + "\ntoken: " + generar_token(line.split(":")[2])
     return "ERROR: User not found or incorrect password"
+
+@app.route('/user/delete', methods = ['DELETE'])
+async def delete_user():
+    datos = await request.get_json()
+    delete = False
+    data = ""
+    uid = ""
+    
+    user = datos.get("nombre")
+    pwd = datos.get("password")
+
+    if (user_already_exists(user) == False):
+        return "ERROR: user is not in the system, please register"
+
+    with open('users.txt', 'r') as f:
+        for line in f:
+            if line.split(":")[0] == user and line.split(":")[1] == pwd:
+                delete = True
+                uid = line.split(":")[2]
+            else:
+                data += line
+    if delete:
+        with open('users.txt', 'w') as f:
+            f.write(data)
+        
+        if os.path.exists(uid):
+            shutil.rmtree(uid)
+        
+        return "Usuario borrado con éxito"
+    return "ERROR: User not found or incorrect password"
+
+@app.route('/user/modify', methods = ['POST'])
+async def modify():
+    datos = await request.get_json()
+    user = datos.get("nombre")
+    pwd1 = datos.get("password_old")
+    pwd2 = datos.get("password_new")
+    data = ''
+    found = False
+
+    with open('users.txt', 'r') as f:
+        for line in f:
+            if line.split(":")[0] == user and line.split(":")[1] == pwd1:
+                data += line.split(':')[0] + ":" + pwd2 + ":" + line.split(':')[2]
+                found = True
+            else:
+                data += line
+        if (found):
+            with open('users.txt', 'w') as f:
+                f.write(data)
+            return "Contraseña modificada con éxito"
+        else:
+            return "ERROR: User not found or incorrect password"
+    
 
 
     

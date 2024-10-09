@@ -7,7 +7,7 @@ app = Quart(__name__)
 
 
 def generar_token(uid):
-    print(uid)
+    
     hash = uuid.uuid5(SECRET_UUID, str(uid))
     return str(hash)
 
@@ -21,21 +21,23 @@ def user_already_exists(nombre):
 
 def uid_already_exists(uid):
     nom = ""
-    with open('users.txt', 'r+') as f:
+    with open('users.txt', 'r') as f:
         for line in f:
+            
             if (line == "\n"):
                 pass
             elif line.split(":")[2] == uid:
                 return True
+
     return False
 
 
-@app.route('/file/create_file', methods = ['POST'])
+@app.route('/file/create', methods = ['POST'])
 async def create_file():
     datos = await request.get_json()
    
     
-    print(datos)
+    
     uid = datos.get('uid')
     filename = datos.get('filename')
     content = datos.get('content')
@@ -54,12 +56,12 @@ async def create_file():
             f.write(content)
             return 'Fichero creado on exito'
         
-@app.route('/file/delete_file', methods = ['POST'])
+@app.route('/file/delete', methods = ['DELETE'])
 async def delete_file():
     datos = await request.get_json()
    
     
-    print(datos)
+    
     uid = datos.get('uid')
     filename = datos.get('filename')
     content = datos.get('content')
@@ -80,12 +82,12 @@ async def delete_file():
         else:
             return "Archivo con nombre " + filename + " no existe"
         
-@app.route('/file/list_file', methods = ['GET'])
+@app.route('/file/list', methods = ['GET'])
 async def list_file():
     datos = await request.get_json()
    
     
-    print(datos)
+    
     uid = datos.get('uid')
     auth = request.headers.get('Authorization')
     token = auth.split(" ")[1]
@@ -98,9 +100,60 @@ async def list_file():
     
     if os.path.exists(uid):
         return os.listdir(uid)
-    
 
+@app.route('/file/read', methods = ['GET'])
+async def read_file():
+    datos = await request.get_json()
+   
     
+    
+    uid = datos.get('uid')
+    auth = request.headers.get('Authorization')
+    filename = datos.get('filename')
+    token = auth.split(" ")[1]
+    ret = ""
+
+    if (uid_already_exists(uid) == False):
+        return "ERROR: uid is not in the system, please register"
+
+    if (generar_token(uid) != token):
+        return "ERROR: auth failed"
+    
+    if os.path.exists(uid):
+        path = os.path.join(uid + "/" + filename)
+        if os.path.exists(path):
+            with open(path, 'r') as f:
+                for line in f:
+                    ret += str(line)
+                return ret
+        else:
+            return "Archivo con nombre " + filename + " no existe"
+        
+@app.route('/file/modify', methods = ['POST'])
+async def modify_file():
+    datos = await request.get_json()
+   
+    uid = datos.get('uid')
+    auth = request.headers.get('Authorization')
+    filename = datos.get('filename')
+    content = datos.get('content')
+    token = auth.split(" ")[1]
+    ret = ""
+
+    if (uid_already_exists(uid) == False):
+        return "ERROR: uid is not in the system, please register"
+
+    if (generar_token(uid) != token):
+        return "ERROR: auth failed"
+    
+    if os.path.exists(uid):
+        path = os.path.join(uid + "/" + filename)
+        if os.path.exists(path):
+            with open(path, 'a') as f:
+                f.write(content)
+                return "Archivo modificado con éxito"
+        else:
+            return "Archivo con nombre " + filename + " no existe"
 
 if __name__ == "__main__":
     app.run(host='localhost', port=5090, debug=True)
