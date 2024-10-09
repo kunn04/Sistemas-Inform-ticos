@@ -12,6 +12,15 @@ def generar_token(uid):
 
 def user_already_exists(nombre):
     nom = ""
+
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_directory, 'users.txt')
+
+    if not os.path.exists(file_path):
+        with open('users.txt', 'w') as f:
+            f.write('')
+        
+
     with open('users.txt', 'r+') as f:
         for line in f:
             if line.split(":")[0] == nombre:
@@ -61,34 +70,10 @@ async def login():
                 return "uid: " + line.split(':')[2] + "\ntoken: " + generar_token(line.split(":")[2])
     return "ERROR: User not found or incorrect password"
 
-@app.route('/user/create_file', methods = ['POST'])
-async def create_file():
-    datos = await request.get_json()
-   
-    
-    print(datos)
-    uid = datos.get('uid')
-    filename = datos.get('filename')
-    content = datos.get('content')
-    auth = request.headers.get('Authorization')
-    token = auth.split(" ")[1]
-
-    if (uid_already_exists(uid) == False):
-        return "ERROR: uid is not in the system, please register"
-
-    if (generar_token(uid) != token):
-        return "ERROR: auth failed"
-    
-    if os.path.exists(uid):
-        path = os.path.join(uid + filename)
-        with open(path, 'w') as f:
-            f.write(content)
-            return 'Fichero creado on exito'
-    
 
     
 
 if __name__ == "__main__":
-    app.run(host='localhost', port=5060, debug=True)
+    app.run(host='localhost', port=5080, debug=True)
     
 
