@@ -64,7 +64,6 @@ async def delete_file():
     
     uid = datos.get('uid')
     filename = datos.get('filename')
-    content = datos.get('content')
     auth = request.headers.get('Authorization')
     token = auth.split(" ")[1]
 
@@ -156,4 +155,4 @@ async def modify_file():
             return "Archivo con nombre " + filename + " no existe"
 
 if __name__ == "__main__":
-    app.run(host='localhost', port=5090, debug=True)
+    app.run(host='0.0.0.0', port=5090, debug=True)

@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  user_api:
+    build: .
+    ports:
+      - "5080:5080"
+    command: python user.py
+    volumes:
+      - ./:/app
+
+  file_api:
+    build: .
+    ports:
+      - "5090:5090"
+    command: python file.py
+    volumes:
+      - ./:/app
