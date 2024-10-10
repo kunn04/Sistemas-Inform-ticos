@@ -54,7 +54,7 @@ async def create_file():
         path = os.path.join(uid + "/" + filename)
         with open(path, 'w') as f:
             f.write(content)
-            return 'Fichero creado on exito'
+            return 'Fichero creado con exito'
         
 @app.route('/file/delete', methods = ['DELETE'])
 async def delete_file():

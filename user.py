@@ -10,8 +10,6 @@ def generar_token(uid):
     return str(hash)
 
 def user_already_exists(nombre):
-    nom = ""
-
     current_directory = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(current_directory, 'users.txt')
 
@@ -27,7 +25,6 @@ def user_already_exists(nombre):
     return False
 
 def uid_already_exists(uid):
-    nom = ""
     with open('users.txt', 'r+') as f:
         for line in f:
             if line.split(":")[2] == uid:
@@ -55,7 +52,7 @@ async def register():
         f.write('\n' + user + ':' + pwd + ':' + uid)
         os.mkdir(uid)
 
-    return user
+    return "usuario " + user + " creado con éxito"
 
 @app.route('/user/login', methods = ['PUT', 'POST'])
 async def login():
