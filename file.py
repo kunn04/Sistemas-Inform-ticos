@@ -5,7 +5,7 @@ SECRET_UUID = uuid.UUID("00010203-0405-0607-0809-0a0b0c0d0e0f")
 
 app = Quart(__name__)
 
-
+#GIT USED FOR THIS
 def generar_token(uid):
     
     hash = uuid.uuid5(SECRET_UUID, str(uid))
