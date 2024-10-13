@@ -11,7 +11,7 @@ def generar_token(uid):
     hash = uuid.uuid5(SECRET_UUID, str(uid))
     return str(hash)
 
-def user_already_exists(nombre):
+def user_already_exists(nombre): 
     nom = ""
     with open('users.txt', 'r+') as f:
         for line in f:
