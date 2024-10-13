@@ -26,7 +26,7 @@ token = ""
 user = "" 
 pwd = ""
 
-commands = ['LOGIN', 'REGISTER', 'DELETEUSER', 'MODUSER', 'CREATEFILE', 'DELETEILE', 'MODFILE', 'READFILE', 'LISTFILE', 'HELP', 'LOGOUT', 'EXIT']
+commands = ['LOGIN', 'REGISTER', 'DELETEUSER', 'MODUSER', 'CREATEFILE', 'DELETEFILE', 'MODFILE', 'READFILE', 'LISTFILE', 'HELP', 'LOGOUT', 'EXIT']
 
 user_input = ""
 
@@ -140,8 +140,7 @@ def verify(string, num, filemode):
     else:
         if filemode:
             parts = string.split(' ')
-            content = " ".join(parts[2:])
-            
+            content = " ".join(parts[2:])            
         return True
     
 def printv(string):
@@ -160,6 +159,8 @@ def extract_uid(response):
 
 
 while True:
+    if user != '':
+        print("\033[94m" + user + ': ' + "\033[0m", end='')
     user_input = str(input("Introduzca un comando o help para ayuda: "))
     parts = user_input.split(' ')
     com = parts[0].upper()
@@ -176,6 +177,7 @@ while True:
         print('READFILE <FILENAME> -- lee el contenido de un fichero')
         print('LISTFILE -- lista los archivos de un usuario')
         print('LOGOUT -- cierra sesión de la cuenta actual')
+        continue
 
     if com == 'LOGIN':
         if verify(user_input, 2, False) and user == '':
