@@ -14,7 +14,11 @@
 
         pip install -r requirements.txt
 
-    5 -- Activar el Docker:
+    5 -- Usr el build del docker:
+
+        docker-compose build
+
+    6 -- Activar el Docker:
 
         sudo docker-compose up
 
