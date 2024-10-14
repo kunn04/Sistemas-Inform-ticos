@@ -54,7 +54,9 @@ async def register():
 
     with open('users.txt', 'a') as f:
         f.write('\n' + user + ':' + str(pwd_hash) + ':' + uid)
-        os.mkdir(uid)
+        if not os.path.exists("files"):
+            os.mkdir("files")
+        os.mkdir("files/" + uid)
 
     return "Usuario " + user.upper() + " creado con éxito"
 

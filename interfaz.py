@@ -220,6 +220,10 @@ while True:
         if verify(user_input, 2, False):
             fill_data(parts, com)
             response = execute(DELETE)
+            if response.text.split(":")[0] != "ERROR" and user == parts[1]:
+                token = ""
+                uid = ""
+                user = ""
             printv(response.text)
         else:
             printv("ERROR: \nUse: DELETEUSER <USER> <PASSWORD>")

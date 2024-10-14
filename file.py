@@ -56,7 +56,7 @@ async def create_file():
     if not os.path.exists(PATHFILE):
         os.mkdir("files")
     else:
-        path = os.path.join(PATHFILE + uid + "/" + filename)
+        path = os.path.join(PATHFILE + "/" + uid + "/" + filename)
         with open(path, 'w') as f:
             f.write(content)
             return 'Fichero creado con exito'
