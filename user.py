@@ -3,6 +3,7 @@ import os, uuid, hashlib, shutil
 
 SECRET_UUID = uuid.UUID("00010203-0405-0607-0809-0a0b0c0d0e0f")
 HASH = '2397v9248yr823492yrv83ur0923vuyt94u9'
+PATHFILE = "files"
 
 app = Quart(__name__)
 
@@ -98,8 +99,8 @@ async def delete_user():
         with open('users.txt', 'w') as f:
             f.write(data)
         
-        if os.path.exists(uid):
-            shutil.rmtree(uid)
+        if os.path.exists(os.path.join(PATHFILE + "/" + uid)):
+            shutil.rmtree(os.path.join(PATHFILE + "/" + uid))
         
         return "Usuario borrado con éxito"
     return "ERROR: User not found or incorrect password"
@@ -138,6 +139,6 @@ async def modify():
     
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5080, debug=True)
+    app.run(host='0.0.0.0', port=6666, debug=True)
     
 
