@@ -5,8 +5,8 @@ PUT = 1
 POST = 2
 DELETE = 3
 
-port_user = "6666"
-port_file = "7777"
+port_user = "5080"
+port_file = "5090"
 
 users = 0
 method = POST #default
