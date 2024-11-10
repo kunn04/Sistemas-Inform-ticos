@@ -1,28 +1,28 @@
-CREATE OR REPLACE PROCEDURE calculateOrderTotal(IN p_orderid INT)
+CREATE OR REPLACE PROCEDURE calculatePricesOrderdetail()
 LANGUAGE plpgsql
 AS $$
-DECLARE
-    order_total NUMERIC := 0;
 BEGIN
-    SELECT SUM(od.price * od.quantity)
-    INTO order_total
-    FROM orderdetail od
-    WHERE od.orderid = p_orderid;
-
-    UPDATE orders
-    SET totalamount = order_total
-    WHERE orderid = p_orderid;
+    UPDATE orderdetail od
+    SET price = p.price * od.quantity
+    FROM product p
+    WHERE od.prod_id = p.prod_id
 END
-$$;
+$$;;
 
--- Llamar al procedimiento para cada pedido en la tabla orders
-DO $$
-DECLARE
-    o_id INT;
+CREATE OR REPLACE PROCEDURE calculateAmountsOrders()
+LANGUAGE plpgsql
+AS $$
 BEGIN
-    FOR o_id IN SELECT orderid FROM orders
-    LOOP
-        CALL calculateOrderTotal(o_id);
-    END LOOP;
+    UPDATE orders o
+    SET netamount = (
+        SELECT SUM(od.price)
+        FROM orderdetail od
+        WHERE od.orderid = o.orderid
+    ),
+    totalamount = netamount + (netamount * (o.tax / 100));
 END
-$$;
+$$;;
+
+CALL calculatePricesOrderdetail();
+
+CALL calculateAmountsOrders();

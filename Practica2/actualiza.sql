@@ -7,7 +7,6 @@ WHERE ctid IN (
     SELECT ctid FROM cte WHERE rn > 1
 );
 
-
 ALTER TABLE orderdetail
 ADD CONSTRAINT pk_orderdetail
 PRIMARY KEY (orderid, prod_id);
