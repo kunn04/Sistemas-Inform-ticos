@@ -4,8 +4,8 @@ AS $$
 BEGIN
     UPDATE orderdetail od
     SET price = p.price * od.quantity
-    FROM product p
-    WHERE od.prod_id = p.prod_id
+    FROM products p
+    WHERE od.prod_id = p.prod_id;
 END
 $$;;
 
