@@ -91,11 +91,10 @@ async def register():
     datos = await request.get_json()
     email = datos.get("email")
     pwd = datos.get("password")
-    name = datos.get("name")
+    username = datos.get("username")
     address = datos.get("address")
-    creditcard = datos.get("creditcard")
 
-    if not email or not pwd or not name or not address or not creditcard:
+    if not email or not pwd or not username or not address:
         return jsonify({"error": "Missing some data"}), 401
 
     session = Session()
@@ -104,13 +103,11 @@ async def register():
 
         if user:
             return jsonify({'message' : "Email already in use"}), 401
+        
+        maxid = session.query(func.max(Customer.customerid)).scalar()
 
-        new_user = Customer(email = email, password = pwd, name = name, address = address)
+        new_user = Customer(customerid = maxid+1, email = email, password = pwd, username = username, address = address)
         session.add(new_user)
-        session.commit()
-
-        new_creditcard = CreditcardCustomer(customerid = new_user.customerid, creditcard = creditcard)
-        session.add(new_creditcard)
         session.commit()
 
         return jsonify({'message' : "User registered successfully"}), 200
@@ -126,8 +123,13 @@ async def add_creditcard():
     email = datos.get("email")
     pwd = datos.get("password")
     creditcard = datos.get("creditcard")
+    exp_date_str = datos.get("exp_date")
+    cvv = datos.get("cvv")
+    cardholder = datos.get("cardholder")
 
-    if not email or not pwd or not creditcard:
+    exp_date = datetime.strptime(exp_date_str, '%Y-%m-%d').date()
+
+    if not email or not pwd or not creditcard or not exp_date or not cvv or not cardholder:
         return jsonify({"error": "Missing some data"}), 401
 
     session = Session()
@@ -140,9 +142,9 @@ async def add_creditcard():
         creditcard_user = session.query(CreditcardCustomer).filter_by(customerid = user.customerid, creditcard=creditcard).first()
 
         if creditcard_user:
-            return jsonify({'message' : "Credit card already in use"}), 401
+            return jsonify({'message' : "Credit card already registered by the user"}), 401
         
-        new_creditcard = CreditcardCustomer(customerid = user.customerid, creditcard = creditcard)
+        new_creditcard = CreditcardCustomer(customerid = user.customerid, creditcard = creditcard, exp_date = exp_date, cvv = cvv, cardholder = cardholder)
         session.add(new_creditcard)
         session.commit()
 
@@ -177,7 +179,7 @@ async def delete_creditcard():
         
         session.delete(creditcard_user)
         session.commit()
-
+        
         return jsonify({'message' : "Credit card deleted successfully"}), 200
 
     except SQLAlchemyError as e:
