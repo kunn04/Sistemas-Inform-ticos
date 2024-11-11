@@ -32,7 +32,7 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
 
 5. **Ejecutar el scripts de actualización:**
 
-   Finalmente, ejecuta los scripts de actualización de la BBDD dentro de la base de datos:
+   Ejecuta los scripts de actualización de la BBDD dentro de la base de datos:
 
    ```bash
    \i actualiza.sql
@@ -45,6 +45,20 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
 
    \i pagado.sql
    ```
+
+6. **Ejecutar la api:**
+
+   Finalmente, ejecuta la api para poder enviar curls:
+
+   ```bash
+   python3 api.py
+   ```
+
+## CURLS ÚTILES:
+
+- **LOGIN:** curl -X POST http://localhost:5080/login -H "Content-Type: application/json" -d '{"email": "hawley.bra@jmail.com", "password": "naples"}'
+
+- **ADD BALANCE:** curl -X POST http://localhost:5080/add_balance -H "Content-Type: application/json" -d '{"email": "hawley.bra@jmail.com", "password": "naples", "balance": "100", "creditcard": "4832398859973558"}'
 
 ## Notas:
 
