@@ -32,7 +32,7 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
 
 5. **Ejecutar el scripts de actualización:**
 
-   Finalmente, ejecuta el script `actualiza.sql` dentro de la base de datos:
+   Finalmente, ejecuta los scripts de actualización de la BBDD dentro de la base de datos:
 
    ```bash
    \i actualiza.sql
