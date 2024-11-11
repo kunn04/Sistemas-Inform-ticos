@@ -30,12 +30,20 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
    psql -h localhost -p 5432 -U alumnodb -d si1
    ```
 
-5. **Ejecutar el script de actualización:**
+5. **Ejecutar el scripts de actualización:**
 
    Finalmente, ejecuta el script `actualiza.sql` dentro de la base de datos:
 
    ```bash
    \i actualiza.sql
+
+   \i actualizaCarrito.sql
+
+   \i actualizaPrecios.sql
+
+   \i actualizaTablas.sql
+
+   \i pagado.sql
    ```
 
 ## Notas:
@@ -43,4 +51,3 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
 - Asegúrate de tener Docker y Docker Compose instalados y configurados correctamente en tu sistema.
 - Este proyecto usa PostgreSQL en un contenedor Docker.
 - El script `actualiza.sql` contiene las instrucciones necesarias para actualizar la base de datos después de levantar los contenedores.
-

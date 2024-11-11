@@ -39,7 +39,7 @@ def fill_data(coms, command):
         url = "http://localhost:" + port_user + "/user/login"
         headers = {"Content-Type": "application/json"}
         data = {
-            "nombre": str(coms[1]),
+            "username": str(coms[1]),
             "password": str(coms[2])
         }
     elif (command == "REGISTER"):    #REGISTER <USER> <PASSWORD>
