@@ -56,16 +56,68 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
 
 ## CURLS DE PRUEBA:
 
+- **REGISTER:**
+
+```bash
+curl -X POST http://localhost:5080/register \
+      -H "Content-Type: application/json" \
+      -d '{
+           "email": "example999@domain.com",
+           "password": "securepassword",
+           "username": "ExampleName",
+           "address": "123 Main St"
+         }'
+```
+
 - **LOGIN:**
 
 ```bash
-curl -X POST http://localhost:5080/login -H "Content-Type: application/json" -d '{"email": "hawley.bra@jmail.com", "password": "naples"}'
+curl -X POST http://localhost:5080/login \
+   -H "Content-Type: application/json" \
+   -d '{
+         "email": "example999@domain.com",
+         "password": "securepassword"
+      }'
+```
+
+- **ADD CREDITCARD:**
+
+```bash
+curl -X POST http://localhost:5080/add_creditcard \
+      -H "Content-Type: application/json" \
+      -d '{
+            "email": "example999@domain.com",
+            "password": "securepassword",
+            "creditcard": "1234567890123456",
+            "exp_date": "2025-12-31",
+            "cvv": "123",
+            "cardholder": "Example Name"
+         }'
 ```
 
 - **ADD BALANCE:**
 
 ```bash
-curl -X POST http://localhost:5080/add_balance -H "Content-Type: application/json" -d '{"email": "hawley.bra@jmail.com", "password": "naples", "balance": "100", "creditcard": "4832398859973558"}'
+curl -X POST http://localhost:5080/add_balance \
+      -H "Content-Type: application/json" \
+      -d '{
+            "email": "example999@domain.com",
+            "password": "securepassword",
+            "balance": "100",
+            "creditcard": "1234567890123456"
+         }'
+```
+
+- **DELETE CREDITCARD:**
+
+```bash
+curl -X POST http://localhost:5080/delete_creditcard \
+    -H "Content-Type: application/json" \
+    -d '{
+        "email": "example999@domain.com",
+        "password": "securepassword",
+        "creditcard": "1234567890123456"
+    }'
 ```
 
 ## Notas:
@@ -73,3 +125,7 @@ curl -X POST http://localhost:5080/add_balance -H "Content-Type: application/jso
 - Asegúrate de tener Docker y Docker Compose instalados y configurados correctamente en tu sistema.
 - Este proyecto usa PostgreSQL en un contenedor Docker.
 - El script `actualiza.sql` contiene las instrucciones necesarias para actualizar la base de datos después de levantar los contenedores.
+
+```
+
+```
