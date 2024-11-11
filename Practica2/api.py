@@ -187,6 +187,37 @@ async def delete_creditcard():
     finally:
         session.close()
 
+@app.route('/list_creditcards', methods = ['POST'])
+async def delete_creditcard():
+    datos = await request.get_json()
+    email = datos.get("email")
+    pwd = datos.get("password")
+
+    if not email or not pwd:
+        return jsonify({"error": "Missing some data"}), 401
+
+    session = Session()
+    try:
+        user = session.query(Customer).filter_by(email = email, password = pwd).first()
+
+        if not user:
+            return jsonify({'message' : "Invalid email or password"}), 401
+        
+        creditcards_user = session.query(CreditcardCustomer.creditcard).filter_by(customerid = user.customerid).all() #Lista de tuplas
+        creditcards_list = [creditcard[0] for creditcard in creditcards_user] #Primer elemento de cada tupla
+
+        if not creditcards_user:
+            return jsonify({'message' : "No creditcars registered by the user"}), 401
+        
+        session.commit()
+        
+        return jsonify({'message' : creditcards_list}), 200
+
+    except SQLAlchemyError as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session.close()
+
 @app.route('/add_to_cart', methods = ['POST'])
 async def add_to_cart():
     datos = await request.get_json()

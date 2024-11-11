@@ -95,6 +95,17 @@ curl -X POST http://localhost:5080/add_creditcard \
          }'
 ```
 
+- **LIST CREDITCARDS:**
+
+```bash
+curl -X POST http://localhost:5080/list_creditcards \
+      -H "Content-Type: application/json" \
+      -d '{
+         "email": "example@domain.com",
+         "password": "yourpassword"
+      }'
+```
+
 - **ADD BALANCE:**
 
 ```bash
@@ -112,12 +123,12 @@ curl -X POST http://localhost:5080/add_balance \
 
 ```bash
 curl -X POST http://localhost:5080/delete_creditcard \
-    -H "Content-Type: application/json" \
-    -d '{
+      -H "Content-Type: application/json" \
+      -d '{
         "email": "example999@domain.com",
         "password": "securepassword",
         "creditcard": "1234567890123456"
-    }'
+      }'
 ```
 
 ## Notas:
