@@ -56,9 +56,17 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
 
 ## CURLS ÚTILES:
 
-- **LOGIN:** curl -X POST http://localhost:5080/login -H "Content-Type: application/json" -d '{"email": "hawley.bra@jmail.com", "password": "naples"}'
+- **LOGIN:**
 
-- **ADD BALANCE:** curl -X POST http://localhost:5080/add_balance -H "Content-Type: application/json" -d '{"email": "hawley.bra@jmail.com", "password": "naples", "balance": "100", "creditcard": "4832398859973558"}'
+```bash
+curl -X POST http://localhost:5080/login -H "Content-Type: application/json" -d '{"email": "hawley.bra@jmail.com", "password": "naples"}'
+```
+
+- **ADD BALANCE:**
+
+```bash
+curl -X POST http://localhost:5080/add_balance -H "Content-Type: application/json" -d '{"email": "hawley.bra@jmail.com", "password": "naples", "balance": "100", "creditcard": "4832398859973558"}'
+```
 
 ## Notas:
 
