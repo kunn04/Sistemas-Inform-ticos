@@ -188,7 +188,7 @@ async def delete_creditcard():
         session.close()
 
 @app.route('/list_creditcards', methods = ['POST'])
-async def delete_creditcard():
+async def list_creditcards():
     datos = await request.get_json()
     email = datos.get("email")
     pwd = datos.get("password")
@@ -224,8 +224,15 @@ async def add_to_cart():
     email = datos.get("email")
     pwd = datos.get("password")
     productid = datos.get("productid")
+    quantity_str = datos.get("quantity")
 
-    if not email or not pwd or not productid:
+    try:
+        quantity = int(quantity_str)
+    except ValueError:
+        return jsonify({"error": "Quantity must be a number"}), 400
+
+
+    if not email or not pwd or not productid or not quantity:
         return jsonify({"error": "Missing some data"}), 401
 
     session = Session()
@@ -235,18 +242,24 @@ async def add_to_cart():
         if not user:
             return jsonify({'message' : "Invalid email or password"}), 401
         
-        product = session.query(Product).filter_by(productid = productid).first()
+        product = session.query(Product).filter_by(prod_id = productid).first()
 
         if not product:
-            return jsonify({'message' : "Invalid product"}), 401
+            return jsonify({'message' : "Invalid product id"}), 401
         
-        cart = session.query(Cart).filter_by(customerid = user.customerid, productid = productid).first()
+        inventory = session.query(Inventory).filter_by(prod_id = productid).first()
 
-        if cart:
-            cart.quantity += 1
-        else:
-            new_cart = Cart(customerid = user.customerid, productid = productid, quantity = 1)
-            session.add(new_cart)
+        if not inventory or inventory.stock < quantity:
+            return jsonify({'message' : "Not enough stock for the quantity required"}), 401
+        
+        order = session.query(Order).filter_by(customerid = user.customerid, status = 'Processed').first()
+
+        if not order:
+            maxid = session.query(func.max(Order.orderid)).scalar()
+            order = Order(orderid = maxid+1, customerid = user.customerid, orderdate = datetime.now(), tax = 15, status = 'Processed')
+            session.add(order)
+
+        newOrderDetail = OrderDetail(orderid = order.orderid, productid = productid, quantity = 1)
         
         session.commit()
 

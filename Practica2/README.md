@@ -100,9 +100,9 @@ curl -X POST http://localhost:5080/add_creditcard \
 ```bash
 curl -X POST http://localhost:5080/list_creditcards \
       -H "Content-Type: application/json" \
-      -d '{
-         "email": "example@domain.com",
-         "password": "yourpassword"
+      -d '{ \
+         "email": "example999@domain.com", \
+         "password": "securepassword" \
       }'
 ```
 
