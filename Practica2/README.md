@@ -54,7 +54,7 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
    python3 api.py
    ```
 
-## CURLS ÚTILES:
+## CURLS DE PRUEBA:
 
 - **LOGIN:**
 
