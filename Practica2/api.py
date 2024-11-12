@@ -127,7 +127,10 @@ async def add_creditcard():
     cvv = datos.get("cvv")
     cardholder = datos.get("cardholder")
 
-    exp_date = datetime.strptime(exp_date_str, '%Y-%m-%d').date()
+    try:
+        exp_date = datetime.strptime(exp_date_str, '%Y-%m-%d').date()
+    except ValueError:
+        return jsonify({"error": "Invalid date format"}), 400
 
     if not email or not pwd or not creditcard or not exp_date or not cvv or not cardholder:
         return jsonify({"error": "Missing some data"}), 401
@@ -207,7 +210,7 @@ async def list_creditcards():
         creditcards_list = [creditcard[0] for creditcard in creditcards_user] #Primer elemento de cada tupla
 
         if not creditcards_user:
-            return jsonify({'message' : "No creditcars registered by the user"}), 401
+            return jsonify({'message' : "No creditcards registered by the user"}), 401
         
         session.commit()
         
