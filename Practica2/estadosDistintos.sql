@@ -1,3 +1,5 @@
+/**************CASO ÍNDICES INDIVIDUALES******************/
+
 -- Eliminar índices existentes (si existen)
 DROP INDEX IF EXISTS idx_orders_customerid;
 DROP INDEX IF EXISTS idx_orders_orderdate;
@@ -25,6 +27,8 @@ DROP INDEX IF EXISTS idx_orders_customerid;
 DROP INDEX IF EXISTS idx_orders_orderdate;
 DROP INDEX IF EXISTS idx_customers_customerid;
 DROP INDEX IF EXISTS idx_customers_country;
+
+/**************CASO ÍNDICES COMPUESTOS******************/
 
 -- Crear nuevos índices compuestos
 CREATE INDEX idx_orders_customerid_orderdate ON orders (customerid, orderdate);
