@@ -119,6 +119,19 @@ curl -X POST http://localhost:5080/add_balance \
          }'
 ```
 
+- **ADD TO CART:**
+
+```bash
+curl -X POST http://localhost:5080/add_to_cart \
+    -H "Content-Type: application/json" \
+    -d '{
+          "email": "example999@domain.com",
+          "password": "securepassword",
+          "productid": "1",
+          "quantity": "3"
+        }'
+```
+
 - **DELETE CREDITCARD:**
 
 ```bash

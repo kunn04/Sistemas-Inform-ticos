@@ -259,8 +259,9 @@ async def add_to_cart():
             order = Order(orderid = maxid+1, customerid = user.customerid, orderdate = datetime.now(), tax = 15, status = 'Processed')
             session.add(order)
 
-        newOrderDetail = OrderDetail(orderid = order.orderid, productid = productid, quantity = 1)
-        
+        newOrderDetail = OrderDetail(orderid = order.orderid, productid = productid, quantity = 1, price = product.price*quantity)
+
+        session.add(newOrderDetail)
         session.commit()
 
         return jsonify({'message' : "Product added to cart successfully"}), 200
