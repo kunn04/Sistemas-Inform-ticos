@@ -54,7 +54,7 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
    python3 api.py
    ```
 
-# OPTIMIZACIÓN:
+### OPTIMIZACIÓN:
 
 1. **Conectar a la base de datos PostgreSQL (si2):**
 
