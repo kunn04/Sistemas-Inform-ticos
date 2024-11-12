@@ -22,7 +22,7 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
    sudo docker-compose up
    ```
 
-4. **Conectar a la base de datos PostgreSQL:**
+4. **Conectar a la base de datos PostgreSQL (si1):**
 
    Utiliza el siguiente comando para conectarte a la base de datos:
 
@@ -30,7 +30,7 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
    psql -h localhost -p 5432 -U alumnodb -d si1
    ```
 
-5. **Ejecutar el scripts de actualización:**
+5. **Ejecutar los scripts de actualización:**
 
    Ejecuta los scripts de actualización de la BBDD dentro de la base de datos:
 
@@ -52,6 +52,24 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
 
    ```bash
    python3 api.py
+   ```
+
+# OPTIMIZACIÓN:
+
+1. **Conectar a la base de datos PostgreSQL (si2):**
+
+   Utiliza el siguiente comando para conectarse a la base de datos:
+
+   ```bash
+   psql -h localhost -p 5433 -U alumnodb -d si2
+   ```
+
+2. **Ejecutar el script:**
+
+   Ejecuta los scripts de actualización de la BBDD dentro de la base de datos:
+
+   ```bash
+   \i estadosDistintos.sql
    ```
 
 ## CURLS DE PRUEBA:

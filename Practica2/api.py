@@ -289,7 +289,6 @@ async def delete_from_cart():
     productid = datos.get("productid")
     quantity_str = datos.get("quantity")
 
-
     try:
         quantity = int(quantity_str)
     except ValueError:
