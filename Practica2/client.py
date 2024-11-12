@@ -1,15 +1,18 @@
 import requests
 
-BASE_URL = 'http://localhost:5000'  # Cambia esto a la URL de tu API
+BASE_URL = 'http://localhost:508    0'  # Cambia esto a la URL de tu API
 
 def add_to_cart(email, password, productid):
     url = f"{BASE_URL}/add_to_cart"
+    headers = {
+        "Content-Type": "application/json"
+    }
     data = {
         "email": email,
         "password": password,
         "productid": productid
     }
-    response = requests.post(url, json=data)
+    response = requests.post(url, headers=headers, data=json.dumps(data))
     return response.json()
 
 def delete_from_cart(email, password, productid):

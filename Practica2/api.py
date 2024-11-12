@@ -331,6 +331,7 @@ async def pay_cart():
     datos = await request.get_json()
     email = datos.get("email")
     pwd = datos.get("password")
+    creditcard = datos.get("creditcard")
 
     if not email or not pwd:
         return jsonify({"error": "Missing some data"}), 401
@@ -341,6 +342,10 @@ async def pay_cart():
 
         if not user:
             return jsonify({'message' : "Invalid email or password"}), 401
+        
+        creditcard_user = session.query(CreditcardCustomer).filter_by(customerid = user.customerid, creditcard=creditcard).first()
+        if not creditcard_user:
+            return jsonify({'message' : "Invalid credit card"}), 401
         
         order = session.query(Order).filter_by(customerid = user.customerid, status = 'Processed').first()
         

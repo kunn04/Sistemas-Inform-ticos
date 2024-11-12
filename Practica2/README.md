@@ -129,8 +129,33 @@ curl -X POST http://localhost:5080/add_to_cart \
             "email": "example999@domain.com",
             "password": "securepassword",
             "productid": "1",
+            "quantity": "6"
+         }'
+```
+
+- **DELETE FROM CART:**
+
+```bash
+curl -X POST http://localhost:5080/delete_from_cart \
+      -H "Content-Type: application/json" \
+      -d '{
+            "email": "example999@domain.com",
+            "password": "securepassword",
+            "productid": "1",
             "quantity": "3"
          }'
+```
+
+- **PAY CART:**
+
+```bash
+curl -X POST http://localhost:5080/pay_cart \
+      -H "Content-Type: application/json" \
+      -d '{
+         "email": "example999@domain.com",
+         "password": "securepassword",
+         "creditcard": "1234567890123456"
+      }'
 ```
 
 - **DELETE CREDITCARD:**
