@@ -8,7 +8,7 @@ DROP INDEX IF EXISTS idx_customers_country;
 DROP INDEX IF EXISTS idx_orders_customerid_orderdate;
 DROP INDEX IF EXISTS idx_customers_customerid_country;
 
--- Crear nuevos índices individuales necesarios
+-- Crear nuevos índices individuales 
 CREATE INDEX idx_orders_customerid ON orders (customerid);
 CREATE INDEX idx_orders_orderdate ON orders (orderdate);
 CREATE INDEX idx_customers_customerid ON customers (customerid);
