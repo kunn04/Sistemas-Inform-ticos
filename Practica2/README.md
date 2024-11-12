@@ -37,9 +37,9 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
    ```bash
    \i actualiza.sql
 
-   \i actualizaCarrito.sql
-
    \i actualizaPrecios.sql
+
+   \i actualizaCarrito.sql
 
    \i actualizaTablas.sql
 
@@ -100,10 +100,11 @@ curl -X POST http://localhost:5080/add_creditcard \
 ```bash
 curl -X POST http://localhost:5080/list_creditcards \
       -H "Content-Type: application/json" \
-      -d '{ \
-         "email": "example999@domain.com", \
-         "password": "securepassword" \
-      }'
+      -d '{
+          "email": "example999@domain.com",
+          "password": "securepassword"
+         }'
+
 ```
 
 - **ADD BALANCE:**
@@ -123,13 +124,13 @@ curl -X POST http://localhost:5080/add_balance \
 
 ```bash
 curl -X POST http://localhost:5080/add_to_cart \
-    -H "Content-Type: application/json" \
-    -d '{
-          "email": "example999@domain.com",
-          "password": "securepassword",
-          "productid": "1",
-          "quantity": "3"
-        }'
+      -H "Content-Type: application/json" \
+      -d '{
+            "email": "example999@domain.com",
+            "password": "securepassword",
+            "productid": "1",
+            "quantity": "3"
+         }'
 ```
 
 - **DELETE CREDITCARD:**
@@ -138,9 +139,9 @@ curl -X POST http://localhost:5080/add_to_cart \
 curl -X POST http://localhost:5080/delete_creditcard \
       -H "Content-Type: application/json" \
       -d '{
-        "email": "example999@domain.com",
-        "password": "securepassword",
-        "creditcard": "1234567890123456"
+         "email": "example999@domain.com",
+         "password": "securepassword",
+         "creditcard": "1234567890123456"
       }'
 ```
 

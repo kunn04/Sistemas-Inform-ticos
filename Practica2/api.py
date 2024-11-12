@@ -226,6 +226,7 @@ async def add_to_cart():
     productid = datos.get("productid")
     quantity_str = datos.get("quantity")
 
+
     try:
         quantity = int(quantity_str)
     except ValueError:
@@ -259,7 +260,13 @@ async def add_to_cart():
             order = Order(orderid = maxid+1, customerid = user.customerid, orderdate = datetime.now(), tax = 15, status = 'Processed')
             session.add(order)
 
-        newOrderDetail = OrderDetail(orderid = order.orderid, productid = productid, quantity = 1, price = product.price*quantity)
+        orderDetail = session.query(OrderDetail).filter_by(orderid = order.orderid, prod_id = productid).first()
+
+        if not orderDetail:
+            newOrderDetail = OrderDetail(orderid = order.orderid, prod_id = productid, quantity = quantity, price = product.price*quantity)
+        else:
+            orderDetail.quantity += quantity
+            orderDetail.price += product.price*quantity
 
         session.add(newOrderDetail)
         session.commit()
@@ -267,6 +274,7 @@ async def add_to_cart():
         return jsonify({'message' : "Product added to cart successfully"}), 200
 
     except SQLAlchemyError as e:
+        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
         return jsonify({"error": str(e)}), 500
     finally:
         session.close()
