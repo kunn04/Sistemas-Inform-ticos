@@ -263,18 +263,17 @@ async def add_to_cart():
         orderDetail = session.query(OrderDetail).filter_by(orderid = order.orderid, prod_id = productid).first()
 
         if not orderDetail:
-            newOrderDetail = OrderDetail(orderid = order.orderid, prod_id = productid, quantity = quantity, price = product.price*quantity)
+            newOrderDetail = OrderDetail(orderid = order.orderid, prod_id = productid, quantity = quantity, price = product.price)
+            session.add(newOrderDetail)
         else:
             orderDetail.quantity += quantity
-            orderDetail.price += product.price*quantity
 
-        session.add(newOrderDetail)
+        
         session.commit()
 
         return jsonify({'message' : "Product added to cart successfully"}), 200
 
     except SQLAlchemyError as e:
-        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
         return jsonify({"error": str(e)}), 500
     finally:
         session.close()
@@ -285,8 +284,16 @@ async def delete_from_cart():
     email = datos.get("email")
     pwd = datos.get("password")
     productid = datos.get("productid")
+    quantity_str = datos.get("quantity")
 
-    if not email or not pwd or not productid:
+
+    try:
+        quantity = int(quantity_str)
+    except ValueError:
+        return jsonify({"error": "Quantity must be a number"}), 400
+
+
+    if not email or not pwd or not productid or not quantity:
         return jsonify({"error": "Missing some data"}), 401
 
     session = Session()
@@ -296,22 +303,23 @@ async def delete_from_cart():
         if not user:
             return jsonify({'message' : "Invalid email or password"}), 401
         
-        product = session.query(Product).filter_by(productid = productid).first()
+        order = session.query(Order).filter_by(customerid = user.customerid, status = 'Processed', ).first()
 
-        if not product:
-            return jsonify({'message' : "Invalid product"}), 401
-        
-        cart = session.query(Cart).filter_by(customerid = user.customerid, productid = productid).first()
+        if not order:
+            return jsonify({'message' : "No cart for the user"}), 401
 
-        if cart:
-            if cart.quantity > 1:
-                cart.quantity -= 1
-            else:
-                session.delete(cart)
-        
+        orderDetail = session.query(OrderDetail).filter_by(orderid = order.orderid, prod_id = productid).first()
+
+        if not orderDetail:
+            return jsonify({'message' : "Product not in the cart"}), 401
+        else:
+            orderDetail.quantity -= quantity
+            if orderDetail.quantity == 0:
+                session.delete(orderDetail)
+
         session.commit()
 
-        return jsonify({'message' : "Product deleted from cart successfully"}), 200
+        return jsonify({'message' : "Product deleted from the cart successfully"}), 200
 
     except SQLAlchemyError as e:
         return jsonify({"error": str(e)}), 500
@@ -334,15 +342,15 @@ async def pay_cart():
         if not user:
             return jsonify({'message' : "Invalid email or password"}), 401
         
-        cart = session.query(Cart).filter_by(customerid = user.customerid).all()
-
-        total = 0
-        for item in cart:
-            product = session.query(Product).filter_by(productid = item.productid).first()
-            total += product.price * item.quantity
-            session.delete(item)
+        order = session.query(Order).filter_by(customerid = user.customerid, status = 'Processed').first()
         
-        user.balance -= total
+        if not order:
+            return jsonify({'message' : "No cart for the user"}), 401
+
+        if user.balance < order.totalamount:
+            return jsonify({'message' : "Insufficient balance"}), 401
+
+        order.status = 'Paid'
         session.commit()
 
         return jsonify({'message' : "Cart paid successfully", 'balance' : user.balance}), 200

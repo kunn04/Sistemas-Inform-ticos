@@ -10,8 +10,9 @@ begin
 			select SUM(od.price * od.quantity)
 			from orderdetail od
 			where od.orderid = o.orderid
-		),
-		totalamount = o.netamount + (o.netamount + (o.tax/100));
+		);
+		UPDATE orders o
+    	SET totalamount = netamount + (netamount * (o.tax / 100));
 
 	elsif (tg_op = 'DELETE') then
 		
@@ -20,8 +21,9 @@ begin
 			select SUM(od.price * od.quantity)
 			from orderdetail od
 			where od.orderid = o.orderid
-		),
-		totalamount = o.netamount + (o.netamount + (o.tax/100));
+		);
+		UPDATE orders o
+    	SET totalamount = netamount + (netamount * (o.tax / 100));
 	end if;
 
 	return null;
