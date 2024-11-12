@@ -1,3 +1,4 @@
+-- Función que se ejecutará como trigger para actualizar el stock y las ventas de un producto.
 create or replace function pagadoFunct()
 returns trigger
 as $$
@@ -23,6 +24,7 @@ begin
 end;
 $$ language plpgsql;
 
+-- Crea el trigger 'pagado' en la tabla 'orders' que se ejecuta después de actualizar el estado de un pedido a 'Paid'.
 create or replace trigger pagado
 after update of status on orders
 for each row
