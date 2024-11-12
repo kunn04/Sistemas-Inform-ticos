@@ -39,9 +39,9 @@ Este proyecto utiliza PostgreSQL con Docker y requiere ejecutar algunos comandos
 
    \i actualizaPrecios.sql
 
-   \i actualizaCarrito.sql
-
    \i actualizaTablas.sql
+
+   \i actualizaCarrito.sql
 
    \i pagado.sql
    ```
