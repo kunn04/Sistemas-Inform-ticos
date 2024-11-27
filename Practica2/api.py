@@ -368,7 +368,5 @@ async def pay_cart():
         session.close()
 
 
-#FUNCIONES A IMPLEMENTAR (JJ): Login, Register, Añadir/eliminar tarjeta de credito, añadir saldo, añadir articulos al carrito, 
-#eliminar articulos del carrito, pagar carrito
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5080, debug=True)
