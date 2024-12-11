@@ -2,3 +2,4 @@ pymongo
 SQLAlchemy
 pandas
 psycopg2-binary
+flask
