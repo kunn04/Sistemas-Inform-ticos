@@ -37,17 +37,28 @@ Parámetros:
 - `--commit`: (Opcional) Realiza un commit intermedio.
 - `--incorrectOrder`: (Opcional) Borra en orden incorrecto.
 
-### 3. Ejecutar la API
+
+### 3. Poblar la Base de Datos Neojdb desde PostgreSQL
+
+Ejecutar el script `create_neo4jdb_from_postgresqldb.py` para poblar la base de datos **Neojdb** con datos extraídos de **PostgreSQL**:
+
+Para acceder a ella, poner simplemente en el buscador: http://localhost:7474/browser/, que será en el puerto en el que se encuentre la conexión a la base de datos.
+
+Para ejecutar las consultas de cypher, simplemente se pueden poner en la propia página.
+
+
+
+### 4. Ejecutar la API
 
 Ejecutar el script `api.py` para iniciar la **API REST** con **Flask**:
 
 La API estará disponible en `http://127.0.0.1:5000`.
 
-### 4. Probar la API con el Cliente
+### 5. Probar la API con el Cliente
 
 Ejecutar el script `client.py` para probar la API:
 
-### 5. Borrar el Entorno Virtual y Detener Docker
+### 6. Borrar el Entorno Virtual y Detener Docker
 
 Ejecutar el script `venv_down.sh` para borrar el entorno virtual y detener los contenedores de Docker:
 
