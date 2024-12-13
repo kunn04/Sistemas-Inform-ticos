@@ -14,6 +14,7 @@ services:
     image: neo4j:5.25.1-community
     environment:
       - NEO4J_AUTH=none
+      - NEO4J_PLUGINS=["apoc"]
     ports:
       - "127.0.0.1:7474:7474"
       - "127.0.0.1:7687:7687"
