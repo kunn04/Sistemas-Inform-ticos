@@ -78,6 +78,8 @@ Este script realiza las siguientes acciones:
   - `mongodb_queries.py`: Script con consultas a MongoDB.
   - `api.py`: Implementación de la API REST con Flask.
   - `client.py`: Cliente para probar la API.
+  - `create_neo4jdb_from_postgresqldb.py`: Script para poblar Neojdb desde PostgreSQL.
+  - `*.cypher*`: Archivos con las consultas en cypher de Neojdb.
 - `actualiza.sql`: Script SQL para actualizar restricciones en PostgreSQL.
 
 ## Notas
